@@ -17,7 +17,7 @@ jobs:
         distribution: 'temurin'
         java-version: '11'
 
-    - name: Extract, Setup and Build
+    - name: Update Gradle and Build
       run: |
         # Check and extract zip if present
         if [ -f "WormX-android-project.zip" ]; then
@@ -25,23 +25,24 @@ jobs:
           unzip -q WormX-android-project.zip -d extracted_src
         fi
 
+        # Find gradle-wrapper.properties and update gradle version to 7.5
+        PROP_FILE=$(find . -name "gradle-wrapper.properties" -print -quit)
+        if [ -n "$PROP_FILE" ]; then
+          echo "Updating gradle-wrapper.properties to Gradle 7.5..."
+          echo "distributionUrl=https\://services.gradle.org/distributions/gradle-7.5-bin.zip" > "$PROP_FILE"
+        fi
+
         # Find gradlew file
         GRADLE_PATH=$(find . -name "gradlew" -type f -print -quit)
-        
-        if [ -z "$GRADLE_PATH" ]; then
-          echo "gradlew missing, installing system gradle and generating wrapper..."
-          sudo apt-get update && sudo apt-get install -y gradle
+        if [ -n "$GRADLE_PATH" ]; then
+          PROJECT_DIR=$(dirname "$GRADLE_PATH")
+          cd "$PROJECT_DIR"
+        else
           BUILD_FILE=$(find . -name "build.gradle*" -type f -print -quit)
           if [ -n "$BUILD_FILE" ]; then
             cd "$(dirname "$BUILD_FILE")"
-            gradle wrapper
-          else
-            echo "Error: build.gradle not found anywhere!"
-            exit 1
+            gradle wrapper --gradle-version 7.5
           fi
-        else
-          PROJECT_DIR=$(dirname "$GRADLE_PATH")
-          cd "$PROJECT_DIR"
         fi
 
         chmod +x gradlew
