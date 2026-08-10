@@ -17,17 +17,33 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Find and Build with Gradle
+    - name: Extract, Setup and Build
       run: |
-        # Find where gradlew is located and run it
-        GRADLE_PATH=$(find . -name "gradlew" -type f -print -quit)
-        if [ -z "$GRADLE_PATH" ]; then
-          echo "Error: gradlew not found!"
-          exit 1
+        # Check and extract zip if present
+        if [ -f "WormX-android-project.zip" ]; then
+          echo "Extracting WormX-android-project.zip..."
+          unzip -q WormX-android-project.zip -d extracted_src
         fi
-        PROJECT_DIR=$(dirname "$GRADLE_PATH")
-        echo "Found gradlew in: $PROJECT_DIR"
-        cd "$PROJECT_DIR"
+
+        # Find gradlew file
+        GRADLE_PATH=$(find . -name "gradlew" -type f -print -quit)
+        
+        if [ -z "$GRADLE_PATH" ]; then
+          echo "gradlew missing, installing system gradle and generating wrapper..."
+          sudo apt-get update && sudo apt-get install -y gradle
+          BUILD_FILE=$(find . -name "build.gradle*" -type f -print -quit)
+          if [ -n "$BUILD_FILE" ]; then
+            cd "$(dirname "$BUILD_FILE")"
+            gradle wrapper
+          else
+            echo "Error: build.gradle not found anywhere!"
+            exit 1
+          fi
+        else
+          PROJECT_DIR=$(dirname "$GRADLE_PATH")
+          cd "$PROJECT_DIR"
+        fi
+
         chmod +x gradlew
         ./gradlew assembleDebug
 
