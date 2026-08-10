@@ -5,7 +5,6 @@ on:
 
 jobs:
   build:
-  
     runs-on: ubuntu-latest
 
     steps:
@@ -18,16 +17,22 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-      working-directory: WormX-android-project/WormX
-
-    - name: Build APK with Gradle
-      run: ./gradlew assembleDebug
-      working-directory: WormX-android-project/WormX
+    - name: Find and Build with Gradle
+      run: |
+        # Find where gradlew is located and run it
+        GRADLE_PATH=$(find . -name "gradlew" -type f -print -quit)
+        if [ -z "$GRADLE_PATH" ]; then
+          echo "Error: gradlew not found!"
+          exit 1
+        fi
+        PROJECT_DIR=$(dirname "$GRADLE_PATH")
+        echo "Found gradlew in: $PROJECT_DIR"
+        cd "$PROJECT_DIR"
+        chmod +x gradlew
+        ./gradlew assembleDebug
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
       with:
         name: WormX-Debug-APK
-        path: WormX-android-project/WormX/app/build/outputs/apk/debug/app-debug.apk
+        path: "**/outputs/apk/debug/app-debug.apk"
