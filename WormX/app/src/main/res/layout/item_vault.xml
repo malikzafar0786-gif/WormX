@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.wormx.app.ui.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_vault_tile"
+    android:layout_margin="4dp">
+
+    <TextView
+        android:id="@+id/fileLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/text_faint"
+        android:textSize="10sp" />
+
+</com.wormx.app.ui.SquareFrameLayout>
