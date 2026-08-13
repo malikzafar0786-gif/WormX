@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">WormX</string>
-    <string name="paste_and_download">Paste &amp; Download</string>
-    <string name="active_downloads">Active Downloads</string>
-    <string name="unlock_vault">Unlock Vault</string>
-    <string name="hidden_files">Hidden Files</string>
-</resources>
