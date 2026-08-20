@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/surface"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/previewThumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"
+        android:background="@color/surface_2"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/previewTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/text_primary"
+        android:textSize="14sp"
+        android:maxLines="2"
+        android:ellipsize="end" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:gravity="end">
+
+        <TextView
+            android:id="@+id/previewCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textColor="@color/text_dim"
+            android:padding="10dp"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/previewDownload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Download"
+            android:textColor="@color/bg"
+            android:background="@drawable/bg_pill_accent"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="10dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
